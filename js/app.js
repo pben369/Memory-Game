@@ -120,7 +120,7 @@ function checkAllCardsMatched(noOfMatchedCards){
         togglePopup();
     }
 }
-togglePopup();
+
 function compareCards(currentCard,prevCard) {
     if (currentCard.innerHTML === prevCard.innerHTML) {
         prevCard.classList.add("match");
