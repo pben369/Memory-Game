@@ -5,11 +5,14 @@ let numOfMoves = 0;
 let noOfMatchedCards = 0;
 let sec = 0;
 let min = 0;
-let timerContainer = document.querySelector(".timer");
-let popup = document.querySelector(".popup");
 let gameStart = true;
+let endOfGame = false;
 let gameTimer;
 
+let timerContainer = document.querySelector(".timer");
+let popup = document.querySelector(".popup");
+
+//shuffle cards 
 function shuffleCards(){
     let deck = document.querySelector('.deck');
     for (let i = deck.children.length; i >= 0; i--) {
@@ -72,14 +75,6 @@ function updateNoOfMoves() {
     document.getElementsByClassName("moves")[0].innerHTML = numOfMoves + " Moves";
 }
 
-function closeUnmatchedCards( prevCard, currentCard){
-    setTimeout(function(){
-        prevCard.classList.remove("open", "show");
-        currentCard.classList.remove("open", "show");
-    }, 600);
-    return prevCard, currentCard;
-}
-
 function togglePopup() {
     let stars  = document.querySelector('.stars');
     let movesMade = document.querySelector(".num-of-moves");
@@ -117,8 +112,23 @@ function popUpControls(){
 function checkAllCardsMatched(noOfMatchedCards){
     if ((noOfMatchedCards * 2) === cards.length){
         clearInterval (gameTimer);
-        togglePopup();
+        endOfGame = true;
     }
+}
+
+function closeUnmatchedCards( prevCard, currentCard){
+
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.add("lock-card");
+    }
+
+    setTimeout(function(){
+        prevCard.classList.remove("open", "show");
+        currentCard.classList.remove("open", "show");
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].classList.remove("lock-card");
+        }
+    }, 500);
 }
 
 function compareCards(currentCard,prevCard) {
@@ -133,6 +143,11 @@ function compareCards(currentCard,prevCard) {
     numOfMoves++;
     updateNoOfMoves(numOfMoves);
     rating(numOfMoves);
+
+    if(endOfGame){
+        togglePopup();
+    }
+    
     flippedCards = [];
 }
 
@@ -180,6 +195,7 @@ function resetGame(){
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.remove("match", "open", "show");
     }
+
     flippedCards = [];
     noOfMatchedCards = 0;
     numOfMoves = 0;
@@ -189,6 +205,7 @@ function resetGame(){
     timerContainer.innerHTML = " 00:00 ";
     updateNoOfMoves(numOfMoves);
     rating(numOfMoves);
+    gameStart = true;
 }
 
 function resetBtnTrigger(){
