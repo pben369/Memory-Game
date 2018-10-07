@@ -197,5 +197,5 @@ function resetBtnTrigger(){
 }
 
 startGame();
-resetGame();
+resetBtnTrigger();
 popUpControls();
