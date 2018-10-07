@@ -83,6 +83,10 @@ h1 {
     pointer-events: none;
 }
 
+.lock-card {
+    pointer-events: none;
+}
+
 /*
  * Styles for the Score Panel
  */
@@ -167,7 +171,7 @@ h1 {
     text-align: center;
     color: #9A86CC;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .score-card-title{
