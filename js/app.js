@@ -6,11 +6,9 @@ let noOfMatchedCards = 0;
 let sec = 0;
 let min = 0;
 let timerContainer = document.querySelector(".timer");
+let popup = document.querySelector(".popup");
 let gameStart = true;
 let gameTimer;
-
-let modal = document.querySelector(".modal");
-let closeButton = document.querySelector(".close-button");
 
 function shuffleCards(){
     let deck = document.querySelector('.deck');
@@ -82,6 +80,47 @@ function closeUnmatchedCards( prevCard, currentCard){
     return prevCard, currentCard;
 }
 
+function togglePopup() {
+    let stars  = document.querySelector('.stars');
+    let movesMade = document.querySelector(".num-of-moves");
+    let timeTaken = document.querySelector(".time-taken");
+    let starsEarned = document.querySelector(".stars-earned");
+
+    movesMade.innerHTML = "Moves made: " + numOfMoves;
+    timeTaken.innerHTML = "Time taken: " + min.toLocaleString(undefined,{minimumIntegerDigits: 2}) +"mins " + sec.toLocaleString(undefined,{minimumIntegerDigits: 2}) + "secs";
+    starsEarned.innerHTML = stars.innerHTML ;
+
+    popup.classList.toggle("show-popup");
+}
+
+function popUpControls(){
+    let closeButton = document.querySelector(".close-button");
+    let playAgain = document.querySelector(".play-again-btn");
+
+    closeButton.addEventListener("click", togglePopup);
+
+    function playGameAgain(){
+        resetGame();
+        togglePopup();
+    }
+    playAgain.addEventListener("click",playGameAgain);
+
+    function windowOnClick(event) {
+        if (event.target === popup) {
+            togglePopup();
+        }
+    }
+    window.addEventListener("click", windowOnClick);
+}
+
+
+function checkAllCardsMatched(noOfMatchedCards){
+    if ((noOfMatchedCards * 2) === cards.length){
+        clearInterval (gameTimer);
+        togglePopup();
+    }
+}
+togglePopup();
 function compareCards(currentCard,prevCard) {
     if (currentCard.innerHTML === prevCard.innerHTML) {
         prevCard.classList.add("match");
@@ -97,21 +136,6 @@ function compareCards(currentCard,prevCard) {
     flippedCards = [];
 }
 
-function toggleModal() {
-    modal.classList.toggle("show-modal");
-}
-
-function checkAllCardsMatched(noOfMatchedCards){
-    if ((noOfMatchedCards * 2) === cards.length){
-        clearInterval (gameTimer);
-        setTimeout(function(){
-            toggleModal();
-            closeButton.addEventListener("click", toggleModal);
-            // alert("HURRAY!! You matched all cards! \n" + "With " + numOfMoves + " moves \n and in " + min.toLocaleString(undefined,{minimumIntegerDigits: 2}) + " minutes and " + sec.toLocaleString(undefined,{minimumIntegerDigits: 2}) + " seconds");
-        }, 300);
-    }
-}
-
 function setGameTimer (){
     console.log("Gamestart" + gameStart);
     if(gameStart){
@@ -125,7 +149,6 @@ function setGameTimer (){
         },1000);
     }
 }
-
 
 function startGame(){
     shuffleCards();
@@ -154,40 +177,25 @@ function startGame(){
 }
 
 function resetGame(){
-    const restartBtn = document.querySelector(".restart");
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.remove("match", "open", "show");
+    }
+    flippedCards = [];
+    noOfMatchedCards = 0;
+    numOfMoves = 0;
+    clearInterval (gameTimer);
+    min = 0;
+    sec = 0;
+    timerContainer.innerHTML = " 00:00 ";
+    updateNoOfMoves(numOfMoves);
+    rating(numOfMoves);
+}
 
-    restartBtn.addEventListener("click", function(){
-        for (let i = 0; i < cards.length; i++) {
-            cards[i].classList.remove("match", "open", "show");
-        }
-        flippedCards = [];
-        noOfMatchedCards = 0;
-        numOfMoves = 0;
-        clearInterval (gameTimer);
-        min = 0;
-        sec = 0;
-        timerContainer.innerHTML = " 00:00 ";
-        updateNoOfMoves(numOfMoves);
-        rating(numOfMoves);
-    });
+function resetBtnTrigger(){
+    const resetBtn = document.querySelector(".restart");
+    resetBtn.addEventListener("click", resetGame);
 }
 
 startGame();
 resetGame();
-toggleModal();
-
-
-
-
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+popUpControls();
