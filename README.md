@@ -2,19 +2,28 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
+* [About](#About)
 * [Contributing](#contributing)
 
-## Instructions
+## About
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+"Memory Game Project" is an implemention the classic card game, where:
 
-To get started, open `js/app.js` and start building out the app's functionality
+1. Mix up the cards.
+2. Lay them in rows, face down.
+3. Turn over any two cards.
+4. If the two cards match, keep them.
+5. If they don't match, turn them back over.
+6. Remember what was on each card and where it was.
+7. The game is over when all the cards have been matched.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+[index.html](https://github.com/pben369/memory-Game/blob/master/index.html) and [app.css](https://github.com/pben369/memory-Game/blob/master/css/app.css) implements the front end with 16 cards in a deck.
+[app.js](https://github.com/pben369/memory-Game/blob/master/js/app.js) implements all the all functionality.
+
+
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+As this just a course project, no contributions are accepted.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
