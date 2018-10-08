@@ -12,7 +12,7 @@ let gameTimer;
 let timerContainer = document.querySelector(".timer");
 let popup = document.querySelector(".popup");
 
-//shuffle cards 
+//shuffle cards.
 function shuffleCards(){
     let deck = document.querySelector('.deck');
     for (let i = deck.children.length; i >= 0; i--) {
@@ -21,6 +21,7 @@ function shuffleCards(){
     cards = document.querySelectorAll(".card");
 }
 
+// Function to update the rating 'stars' based on the moves made.
 function rating(numOfMoves){
     let firstStar  = document.querySelector('.first-star');
     let secondStar = document.querySelector('.second-star');
@@ -71,10 +72,12 @@ function rating(numOfMoves){
     }
 }
 
+//Update number of pair of cards flipped.
 function updateNoOfMoves() {
     document.getElementsByClassName("moves")[0].innerHTML = numOfMoves + " Moves";
 }
 
+//Display a pop-up with score values i.e. time taken, moves made and stars earned
 function togglePopup() {
     let stars  = document.querySelector('.stars');
     let movesMade = document.querySelector(".num-of-moves");
@@ -88,6 +91,8 @@ function togglePopup() {
     popup.classList.toggle("show-popup");
 }
 
+//function to implement pop-up controls i.e. close buttons and play again button
+//aslo close pop-up when user clicks on the window outside the pop-up
 function popUpControls(){
     let closeButton = document.querySelector(".close-button");
     let playAgain = document.querySelector(".play-again-btn");
@@ -108,7 +113,8 @@ function popUpControls(){
     window.addEventListener("click", windowOnClick);
 }
 
-
+//Check if player has matched all cards, if yes stop the timer and set a flag 
+// to true
 function checkAllCardsMatched(noOfMatchedCards){
     if ((noOfMatchedCards * 2) === cards.length){
         clearInterval (gameTimer);
@@ -116,8 +122,10 @@ function checkAllCardsMatched(noOfMatchedCards){
     }
 }
 
+//Close unmatched cards if they do not match, with a timedelay of 5ms
+// also lock the all cards during this duration so that user is unable to
+//click on any cards.
 function closeUnmatchedCards( prevCard, currentCard){
-
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.add("lock-card");
     }
@@ -131,6 +139,7 @@ function closeUnmatchedCards( prevCard, currentCard){
     }, 500);
 }
 
+//Check if tow cards match
 function compareCards(currentCard,prevCard) {
     if (currentCard.innerHTML === prevCard.innerHTML) {
         prevCard.classList.add("match");
@@ -147,12 +156,12 @@ function compareCards(currentCard,prevCard) {
     if(endOfGame){
         togglePopup();
     }
-    
+    //clear all cards flipped
     flippedCards = [];
 }
 
+//Update the Game timer and display it in score panel
 function setGameTimer (){
-    console.log("Gamestart" + gameStart);
     if(gameStart){
         gameTimer = setInterval(function(){
             sec++;
@@ -165,9 +174,9 @@ function setGameTimer (){
     }
 }
 
+//Start the game with players first click on a card
 function startGame(){
     shuffleCards();
-    console.log("enter");
     
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener("click", function(){
@@ -187,10 +196,11 @@ function startGame(){
                 cards[i].classList.add("open","show");
                 flippedCards.push(this);
             }
-        })
+        });
     }
 }
 
+// Reset all game parameters.
 function resetGame(){
     for (let i = 0; i < cards.length; i++) {
         cards[i].classList.remove("match", "open", "show");
@@ -208,11 +218,14 @@ function resetGame(){
     gameStart = true;
 }
 
+// Reset all game parameters when 'Reset' button is clicked
+// by an user.
 function resetBtnTrigger(){
     const resetBtn = document.querySelector(".restart");
     resetBtn.addEventListener("click", resetGame);
 }
 
+// Game starts
 startGame();
 resetBtnTrigger();
 popUpControls();
