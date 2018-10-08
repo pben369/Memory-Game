@@ -77,42 +77,6 @@ function updateNoOfMoves() {
     document.getElementsByClassName("moves")[0].innerHTML = numOfMoves + " Moves";
 }
 
-//Display a pop-up with score values i.e. time taken, moves made and stars earned
-function togglePopup() {
-    let stars  = document.querySelector('.stars');
-    let movesMade = document.querySelector(".num-of-moves");
-    let timeTaken = document.querySelector(".time-taken");
-    let starsEarned = document.querySelector(".stars-earned");
-
-    movesMade.innerHTML = "Moves made: " + numOfMoves;
-    timeTaken.innerHTML = "Time taken: " + min.toLocaleString(undefined,{minimumIntegerDigits: 2}) +"mins " + sec.toLocaleString(undefined,{minimumIntegerDigits: 2}) + "secs";
-    starsEarned.innerHTML = stars.innerHTML ;
-
-    popup.classList.toggle("show-popup");
-}
-
-//function to implement pop-up controls i.e. close buttons and play again button
-//aslo close pop-up when user clicks on the window outside the pop-up
-function popUpControls(){
-    let closeButton = document.querySelector(".close-button");
-    let playAgain = document.querySelector(".play-again-btn");
-
-    closeButton.addEventListener("click", togglePopup);
-
-    function playGameAgain(){
-        resetGame();
-        togglePopup();
-    }
-    playAgain.addEventListener("click",playGameAgain);
-
-    function windowOnClick(event) {
-        if (event.target === popup) {
-            togglePopup();
-        }
-    }
-    window.addEventListener("click", windowOnClick);
-}
-
 //Check if player has matched all cards, if yes stop the timer and set a flag 
 // to true
 function checkAllCardsMatched(noOfMatchedCards){
@@ -216,10 +180,50 @@ function resetGame(){
     updateNoOfMoves(numOfMoves);
     rating(numOfMoves);
     gameStart = true;
+    endOfGame = false;
 }
 
-// Reset all game parameters when 'Reset' button is clicked
-// by an user.
+//Display a pop-up with score values i.e. time taken, moves made and stars earned
+function togglePopup() {
+    let stars  = document.querySelector('.stars');
+    let movesMade = document.querySelector(".num-of-moves");
+    let timeTaken = document.querySelector(".time-taken");
+    let starsEarned = document.querySelector(".stars-earned");
+
+    movesMade.innerHTML = "Moves made: " + numOfMoves;
+    timeTaken.innerHTML = "Time taken: " + min.toLocaleString(undefined,{minimumIntegerDigits: 2}) +"mins " + sec.toLocaleString(undefined,{minimumIntegerDigits: 2}) + "secs";
+    starsEarned.innerHTML = stars.innerHTML ;
+
+    popup.classList.toggle("show-popup");
+}
+
+//remove popup and reset game once player clicks on "Play Again" button.
+function playAgainBtnTrigger(){
+    let playAgain = document.querySelector(".play-again-btn");
+
+    playAgain.addEventListener("click",function(){
+        togglePopup();
+        resetGame();
+    });
+}
+
+//function to implement pop-up controls i.e. close buttons and play again button
+//aslo close pop-up when user clicks on the window outside the pop-up
+function popUpControls(){
+    let closeButton = document.querySelector(".close-button");
+    closeButton.addEventListener("click", togglePopup);
+
+    playAgainBtnTrigger();
+
+    function windowOnClick(event) {
+        if (event.target === popup) {
+            togglePopup();
+        }
+    }
+    window.addEventListener("click", windowOnClick);
+}
+
+// Reset all game parameters when 'Reset' button is clicked by an user.
 function resetBtnTrigger(){
     const resetBtn = document.querySelector(".restart");
     resetBtn.addEventListener("click", resetGame);
