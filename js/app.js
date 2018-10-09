@@ -141,7 +141,7 @@ function setGameTimer (){
 //Start the game with players first click on a card
 function startGame(){
     shuffleCards();
-    
+
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener("click", function(){
             let prevCard = flippedCards[0];
@@ -181,6 +181,7 @@ function resetGame(){
     rating(numOfMoves);
     gameStart = true;
     endOfGame = false;
+    shuffleCards();
 }
 
 //Display a pop-up with score values i.e. time taken, moves made and stars earned
@@ -229,7 +230,6 @@ function resetBtnTrigger(){
     resetBtn.addEventListener("click", resetGame);
 }
 
-// Game starts
 startGame();
 resetBtnTrigger();
 popUpControls();
