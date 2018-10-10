@@ -153,11 +153,11 @@ function startGame(){
             }
 
             if (flippedCards.length === 1) {
-                cards[i].classList.add("open","show");
+                this.classList.add("open","show");
                 flippedCards.push(this);
                 compareCards(currentCard,prevCard);
             } else {
-                cards[i].classList.add("open","show");
+                this.classList.add("open","show");
                 flippedCards.push(this);
             }
         });
